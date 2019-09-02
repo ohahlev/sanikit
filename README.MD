@@ -5,6 +5,10 @@ An initial point of every sanic web application
 
 	`virtualenv --python python3.6 env`
 	
+- activate virtual env
+
+	`source env/bin/activate`
+	
 - install dependencies and choose config for development
 
 	`make install && make dev`
