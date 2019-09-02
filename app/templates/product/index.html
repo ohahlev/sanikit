@@ -1,0 +1,450 @@
+{% extends "layout.html" %}
+
+{% block jumbotron %}
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <h3 class="header center orange-text">{{_("Search for products")}}</h3>
+        <div class="row center">
+            <nav>
+                <div class="nav-wrapper white">
+
+                    <form method="post" action="{{ app.url_for('product.search') }}">
+                        <input type="hidden" name="searched" value="1" />
+                        <input type="hidden" name="sorted_by" value="product_id" />
+                        <input type="hidden" name="sorted_as" value="desc" />
+                        <input type="hidden" name="id_to_filter" value="{{ id_to_filter }}" />
+                        <input type="hidden" name="name_to_filter" value="{{ name_to_filter }}" />
+                        <input type="hidden" name="tag_to_filter" value="{{ tag_to_filter }}" />
+                        <input type="hidden" name="category_to_filter" value="{{ category_to_filter }}" />
+                        <div class="input-field">
+                            <input id="search" type="search" name="keyword" value="{{ keyword.replace('+', ' ') }}" />
+                            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                            <i class="material-icons">close</i>
+                        </div>
+                    </form>
+
+                </div>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="left">
+                <form method="post" action="{{ app.url_for('product.advance_search') }}">
+                    <input type="hidden" name="searched" value="1" />
+                    <input type="hidden" name="keyword" value="{{ keyword }}" />
+                    <input type="hidden" name="sorted_by" value="product_id" />
+                    <input type="hidden" name="sorted_as" value="desc" />
+                    <ul class="collapsible">
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">youtube_searched_for</i>
+                                {{_("Advance Search")}}
+                            </div>
+                            <div class="collapsible-body">
+                                <span>
+                                    <div class="row">
+                                        <form class="col s12">
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    {% if is_advanced == 1 and id_to_filter != empty_hash %}
+                                                    <input id="by_id" type="text" name="id_to_filter"
+                                                        value="{{ id_to_filter }}" />
+                                                    {% else %}
+                                                    <input id="by_id" type="text" name="id_to_filter" />
+                                                    {% endif %}
+                                                    <label for="by_id">By ID</label>
+                                                </div>
+                                                <div class="input-field col s6">
+                                                    {% if is_advanced == 1 and name_to_filter != empty_hash %}
+                                                    <input id="by_name" type="text" name="name_to_filter"
+                                                        value="{{ name_to_filter }}" />
+                                                    {% else %}
+                                                    <input id="by_name" type="text" name="name_to_filter" />
+                                                    {% endif %}
+                                                    <label for="by_name">By Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    <select name="category_to_filter">
+                                                        <option value="{{ empty_hash }}" selected>ALL</option>
+                                                        {% for category in categories %}
+                                                        {% if is_advanced == True and category.name == category_to_filter %}
+                                                        <option value="{{ category.name }}" selected>{{ category.name }}
+                                                        </option>
+                                                        {% else %}
+                                                        <option value="{{ category.name }}">{{ category.name }}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                    <label>By Category</label>
+                                                </div>
+                                                <div class="input-field col s6">
+                                                    <select name="tag_to_filter">
+                                                        <option value="{{ empty_hash }}" selected>ALL</option>
+                                                        {% for tag in tags %}
+                                                        {% if is_advanced == True and tag.name == tag_to_filter %}
+                                                        <option value="{{ tag.name }}" selected>{{ tag.name }}
+                                                        </option>
+                                                        {% else %}
+                                                        <option value="{{ tag.name }}">{{ tag.name }}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                    <label>By Tag</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <button class="waves-effect waves-light btn"><i
+                                                        class="material-icons left">search</i>search</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block categories %}
+
+<div class="row">
+    <h5>{{_("All categories")}}</h5>
+</div>
+<div class="card-panel category-panel">
+    <div class="row">
+        <form method="post" action="{{ app.url_for('product.advance_search') }}" class="form-category">
+            <input type="hidden" name="sorted_by" value="product_id" />
+            <input type="hidden" name="sorted_as" value="desc" />
+            <input type="hidden" name="id_to_filter" value="" />
+            <input type="hidden" name="name_to_filter" value="" />
+            <input type="hidden" name="tag_to_filter" value="" />
+            <input type="hidden" name="category_to_filter" class="category-to-filter" />
+            {% for category in categories %}
+            <div class="col s12 m4 l3">
+                <div class="icon-block">
+                    <a href="#" category-name="{{ category.name }}" class="btn-category">
+                        <h2 class="center light-blue-text">
+                            <i class="material-icons medium" id="category-icon">{{ category.icon }}</i>
+                        </h2>
+                    </a>
+                    {% if category.name == category_to_filter %}
+                    <h5 class="center category-selected">{{ _(category.name) }}</h5>
+                    {% else %}
+                    <h5 class="center">{{ _(category.name) }} </h5>
+                    {% endif %}
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row" id="recent_products">
+    <h5>{{_("Products")}}</h5>
+</div>
+
+<table class="striped my-table">
+    <thead class="light-blue lighten-5 card-panel">
+        <tr>
+            {% if is_advanced == 1 %}
+            <form method="post" action="{{app.url_for('product.advance_search')}}" class="form-search-by-header">
+                {% else %}
+                <form method="post" action="{{app.url_for('product.search')}}" class="form-search-by-header">
+                    {% endif %}
+                    <input type="hidden" class="searched" name="searched" value="{{ searched }}" />
+                    <input type="hidden" name="keyword" value="{{ keyword }}" />
+                    <input type="hidden" class="sorted_by" name="sorted_by" value="" />
+                    <input type="hidden" class="sorted_as" name="sorted_as" value="" />
+                    <input type="hidden" name="id_to_filter" value="{{ id_to_filter }}" />
+                    <input type="hidden" name="name_to_filter" value="{{ name_to_filter }}" />
+                    <input type="hidden" name="tag_to_filter" value="{{ tag_to_filter }}" />
+                    <input type="hidden" name="category_to_filter" value="{{ category_to_filter }}" />
+                    <th style="padding-left: 20px;">
+                        <div class="row valign-wrapper">
+                            <div>ID</div>
+                            <ul>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-light btn-id-asc" type="button">
+                                        <i class="material-icons small">
+                                            {% if sorted_by == "product_id" and sorted_as == "asc" %}
+                                            <font color="red">arrow_upward</font>
+                                            {% else %}
+                                            arrow_upward
+                                            {% endif %}
+                                        </i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-light btn-id-desc" type="button">
+                                        <i class="material-icons small">
+                                            {% if sorted_by == "product_id" and sorted_as == "desc" %}
+                                            <font color="red">arrow_downward</font>
+                                            {% else %}
+                                            arrow_downward
+                                            {% endif %}
+                                        </i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="row valign-wrapper">
+                            <div>Create Date</div>
+                            <ul>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-light btn-create-date-asc" type="button">
+                                        <i class="material-icons small">
+                                            {% if sorted_by == "product_date_created" and sorted_as == "asc" %}
+                                            <font color="red">arrow_upward</font>
+                                            {% else %}
+                                            arrow_upward
+                                            {% endif %}
+                                        </i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-light btn-create-date-desc"
+                                        type="button">
+                                        <i class="material-icons small">
+                                            {% if sorted_by == "product_date_created" and sorted_as == "desc" %}
+                                            <font color="red">arrow_downward</font>
+                                            {% else %}
+                                            arrow_downward
+                                            {% endif %}
+                                        </i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="row valign-wrapper">
+                            <div>Name</div>
+                            <ul>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-light btn-name-asc" type="button">
+                                        <i class="material-icons small">
+                                            {% if sorted_by == "name" and sorted_as == "asc" %}
+                                            <font color="red">arrow_upward</font>
+                                            {% else %}
+                                            arrow_upward
+                                            {% endif %}
+                                        </i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-light btn-name-desc" type="button">
+                                        <i class="material-icons small">
+                                            {% if sorted_by == "name" and sorted_as == "desc" %}
+                                            <font color="red">arrow_downward</font>
+                                            {% else %}
+                                            arrow_downward
+                                            {% endif %}
+                                        </i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th width="150px">
+                        <div class="row valign-wrapper">
+                            <div>Category</div>
+                            <ul>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-light btn-category-asc" type="button">
+                                        <i class="material-icons small">
+                                            {% if sorted_by == "category_name" and sorted_as == "asc" %}
+                                            <font color="red">arrow_upward</font>
+                                            {% else %}
+                                            arrow_upward
+                                            {% endif %}
+                                        </i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-light btn-category-desc" type="button">
+                                        <i class="material-icons small">
+                                            {% if sorted_by == "category_name" and sorted_as == "desc" %}
+                                            <font color="red">arrow_downward</font>
+                                            {% else %}
+                                            arrow_downward
+                                            {% endif %}
+                                        </i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th>Tags</th>
+                </form>
+        </tr>
+    </thead>
+    <tbody class="card-panel">
+        {% for product in products %}
+        <tr class="clickable-row" data-href="/products/{{product['product_id']}}">
+            <td style="padding-left: 20px;">{{ product["product_id"] }}</td>
+            <td>
+                {% if product["product_date_created"] %}
+                {{ product["product_date_created"].strftime("%Y.%m.%d %H:%M:%S") }}
+                {% endif %}
+            </td>
+            <td>
+                {% if product["name"] %}
+                {{ product["name"]|truncate(config["MAX_TRUNCATE"], True)}}
+                {% endif %}
+            </td>
+            <td>
+                {{ product["category_name"] }}
+            </td>
+            <td>
+                {% if product["tags"] %}
+                {% for tag in product["tags"].split(",") %}
+                <div class="chip">{{ tag }}</div>
+                {% endfor %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="row">
+    {{ m.product_pager(app.url_for("product.search"), is_advanced, 1, keyword, sorted_by, sorted_as, per_page, page,
+    total, last_page, id_to_filter, name_to_filter, tag_to_filter, category_to_filter) }}
+</div>
+
+<script>
+
+    $(document).ready(function() {
+        recent_products = $("#recent_products")[0];
+        console.debug(recent_products);
+        searched = $("input.searched");
+        console.debug(searched.val());
+        if(searched.val() == 1) {
+            recent_products.scrollIntoView(true);
+        }
+    });
+
+    $(".clickable-row").click(function () {
+       //alert($(this).data("href"));
+       window.location = $(this).data("href");
+    });
+
+    var form_category = $("form.form-category");
+    $("a.btn-category").click(function (evt) {
+        var category_to_filter = form_category.find(".category-to-filter");
+        category_to_filter.val(evt.currentTarget.attributes[1].value);
+        form_category.submit();
+    });
+
+    /*
+    $("i#category-icon").mouseover(function () {
+        if ($(this).hasClass("medium")) $(this).removeClass("medium").addClass("large");
+        else $(this).removeClass("large").addClass("medium");
+    });
+
+    $("i#category-icon").mouseout(function () {
+        if ($(this).hasClass("medium")) $(this).removeClass("medium").addClass("large");
+        else $(this).removeClass("large").addClass("medium");
+    });
+    */
+
+    var form = $("form.form-search-by-header");
+
+    searched = $("input.searched");
+
+    var btn_id_asc = $(".my-table .btn-id-asc");
+    btn_id_asc.click(function (evt) {
+        searched.val("1");
+        var sorted_by = $("input.sorted_by");
+        var sorted_as = $("input.sorted_as");
+        sorted_by.val("product_id");
+        sorted_as.val("asc");
+        form.submit();
+    });
+
+    var btn_id_desc = $(".my-table .btn-id-desc");
+    btn_id_desc.click(function (evt) {
+        searched.val("1");
+        var sorted_by = $("input.sorted_by");
+        var sorted_as = $("input.sorted_as");
+        sorted_by.val("product_id");
+        sorted_as.val("desc");
+        form.submit();
+    });
+
+    var btn_create_date_asc = $(".my-table .btn-create-date-asc");
+    btn_create_date_asc.click(function (evt) {
+        searched.val("1");
+        var sorted_by = $("input.sorted_by");
+        var sorted_as = $("input.sorted_as");
+        sorted_by.val("product_date_created");
+        sorted_as.val("asc");
+        form.submit();
+    });
+
+    var btn_create_date_desc = $(".my-table .btn-create-date-desc");
+    btn_create_date_desc.click(function (evt) {
+        searched.val("1");
+        var sorted_by = $("input.sorted_by");
+        var sorted_as = $("input.sorted_as");
+        sorted_by.val("product_date_created");
+        sorted_as.val("desc");
+        form.submit();
+    });
+
+    var btn_name_asc = $(".my-table .btn-name-asc");
+    btn_name_asc.click(function (evt) {
+        searched.val("1");
+        var sorted_by = $("input.sorted_by");
+        var sorted_as = $("input.sorted_as");
+        sorted_by.val("name");
+        sorted_as.val("asc");
+        form.submit();
+    });
+
+    var btn_name_desc = $(".my-table .btn-name-desc");
+    btn_name_desc.click(function (evt) {
+        searched.val("1");
+        var sorted_by = $("input.sorted_by");
+        var sorted_as = $("input.sorted_as");
+        sorted_by.val("name");
+        sorted_as.val("desc");
+        form.submit();
+    });
+
+    var btn_category_asc = $(".my-table .btn-category-asc");
+    btn_category_asc.click(function (evt) {
+        searched.val("1");
+        var sorted_by = $("input.sorted_by");
+        var sorted_as = $("input.sorted_as");
+        sorted_by.val("category_name");
+        sorted_as.val("asc");
+        form.submit();
+    });
+
+    var btn_category_desc = $(".my-table .btn-category-desc");
+    btn_category_desc.click(function (evt) {
+        searched.val("1");
+        var sorted_by = $("input.sorted_by");
+        var sorted_as = $("input.sorted_as");
+        sorted_by.val("category_name");
+        sorted_as.val("desc");
+        form.submit();
+    });
+
+</script>
+{% endblock %}

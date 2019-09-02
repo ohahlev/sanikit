@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col s12">
+        <nav>
+            <div class="nav-wrapper green">
+                <span class="brand-logo center">Edit About</span>
+            </div>
+        </nav>
+        <div class="card-panel">
+            <form action="/admin/about/edit" method="POST" class="form-edit-about">
+                {{ m.render_text_area(form.text) }}
+                {{ form.csrf_token }}
+                <button class="btn btn-submit-edit-about" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+    
+{% endblock %}

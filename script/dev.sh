@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+export ENVIRONMENT=dev
+export DB_HOST=DUMMY
+export DB_PORT=DUMMY
+export DB_USER=DUMMY
+export DB_PASS=DUMMY
+export DB_NAME=DUMMY
+export MAX_CONNECTION=50
+export MY_PORT=2402
