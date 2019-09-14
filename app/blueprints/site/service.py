@@ -2,13 +2,12 @@ from sanic.exceptions import (
      SanicException
 )
 from sanic.log import logger
-from app.blueprints.db.db import bp as db_bp
-from app import util
+from app import  util
 
 
-async def get_article_by_type(type):
+async def get_article_by_type(pool, type):
     # get connection from the pool
-    async with db_bp.pool.acquire() as connection:
+    async with pool.acquire() as connection:
         # get transaction
         async with connection.transaction():
             # fetch article by type
@@ -21,9 +20,9 @@ async def get_article_by_type(type):
                 raise SanicException(e)
 
 
-async def create_article_of_type(type, text):
+async def create_article_of_type(pool, type, text):
     # get connection from the pool
-    async with db_bp.pool.acquire() as connection:
+    async with pool.acquire() as connection:
         # get transaction
         async with connection.transaction():
             try:

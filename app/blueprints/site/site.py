@@ -1,4 +1,3 @@
-import asyncio
 from sanic import (
     response,
     Blueprint
@@ -9,7 +8,7 @@ from app.blueprints.site.forms import (
     FormAboutUs
 )
 from sanic_babel import refresh
-from app.jinja import jinja
+from app.middlewares.jinja import jinja
 from app.blueprints.site import service as article_service
 
 bp = Blueprint("site")
@@ -58,14 +57,14 @@ async def switch_lang(request):
 @bp.route("/about")
 @jinja.template("site/about.html")
 async def about(request):
-    article = await article_service.get_article_by_type(util.about["type"])
+    article = await article_service.get_article_by_type(request.app.pool, util.about["type"])
     return {"article": article}
 
 
 @bp.route("/contact")
 @jinja.template("site/contact.html")
 async def contact(request):
-    article = await article_service.get_article_by_type(util.contact["type"])
+    article = await article_service.get_article_by_type(request.app.pool, util.contact["type"])
     return {"article": article}
 
 

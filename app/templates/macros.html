@@ -225,8 +225,7 @@ id_to_filter, name_to_filter, email_to_filter, phone_to_filter, confirmed_to_fil
 
 
 {% macro product_pager(url, is_advanced, searched, keyword, sorted_by, sorted_as, per_page, page, total, last_page,
-id_to_filter, title_to_filter, position_to_filter, tag_to_filter, category_to_filter, company_to_filter,
-location_to_filter) %}
+id_to_filter, name_to_filter, tag_to_filter, category_to_filter) %}
 <ul class="pagination">
 
 	{% if page == 1 %}
@@ -234,10 +233,9 @@ location_to_filter) %}
 	{% else %}
 	<li class="waves-effect"><a
 			href="{{'{0}&is_advanced={1}&searched={2}&keyword={3}&sorted_by={4}&sorted_as={5}&per_page={6}&page={7}
-			&filtered_by_id={8}&filtered_by_title={9}&filtered_by_position={10}&filtered_by_tag={11}
-			&filtered_by_category={12}&filtered_by_company={13}&filtered_by_location={14}'
-			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,page-1,id_to_filter,title_to_filter,
-			position_to_filter,tag_to_filter,category_to_filter,company_to_filter,location_to_filter)}}">
+			&filtered_by_id={8}&filtered_by_name={9}&filtered_by_tag={10}&filtered_by_category={11}'
+			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,page-1,id_to_filter,name_to_filter,
+			tag_to_filter,category_to_filter)}}">
 		<i class="material-icons">chevron_left</i></a></li>
 	{% endif %}
 
@@ -246,10 +244,9 @@ location_to_filter) %}
 	{% else %}
 	<li class="waves-effect"><a
 			href="{{'{0}&is_advanced={1}&searched={2}&keyword={3}&sorted_by={4}&sorted_as={5}&per_page={6}&page={7}
-			&filtered_by_id={8}&filtered_by_title={9}&filtered_by_position={10}&filtered_by_tag={11}
-			&filtered_by_category={12}&filtered_by_company={13}&filtered_by_location={14}'
-			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,1,id_to_filter,title_to_filter,
-			position_to_filter,tag_to_filter,category_to_filter,company_to_filter,location_to_filter)}}">
+			&filtered_by_id={8}&filtered_by_name={9}&filtered_by_tag={10}&filtered_by_category={11}'
+			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,1,id_to_filter,name_to_filter,
+			tag_to_filter,category_to_filter)}}">
 		first</a>
 	</li>
 	{% endif %}
@@ -259,10 +256,9 @@ location_to_filter) %}
 	{% if total - ((page) * per_page) > 0 %}
 	<li class="waves-effect"><a
 			href="{{'{0}&is_advanced={1}&searched={2}&keyword={3}&sorted_by={4}&sorted_as={5}&per_page={6}&page={7}
-			&filtered_by_id={8}&filtered_by_title={9}&filtered_by_position={10}&filtered_by_tag={11}
-			&filtered_by_category={12}&filtered_by_company={13}&filtered_by_location={14}'
-			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,page+1,id_to_filter,title_to_filter,
-			position_to_filter,tag_to_filter,category_to_filter,company_to_filter,location_to_filter)}}">
+			&filtered_by_id={8}&filtered_by_name={9}&filtered_by_tag={10}&filtered_by_category={11}'
+			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,page+1,id_to_filter,name_to_filter,
+			tag_to_filter,category_to_filter)}}">
 		{{ page + 1 }}</a>
 	</li>
 	{% endif %}
@@ -270,10 +266,9 @@ location_to_filter) %}
 	{% if total - ((page + 1) * per_page) > 0 %}
 	<li class="waves-effect"><a
 			href="{{'{0}&is_advanced={1}&searched={2}&keyword={3}&sorted_by={4}&sorted_as={5}&per_page={6}&page={7}
-			&filtered_by_id={8}&filtered_by_title={9}&filtered_by_position={10}&filtered_by_tag={11}
-			&filtered_by_category={12}&filtered_by_company={13}&filtered_by_location={14}'
-			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,page+2,id_to_filter,title_to_filter,
-			position_to_filter,tag_to_filter,category_to_filter,company_to_filter,location_to_filter)}}">
+			&filtered_by_id={8}&filtered_by_name={9}&filtered_by_tag={10}&filtered_by_category={11}'
+			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,page+2,id_to_filter,name_to_filter,
+			tag_to_filter,category_to_filter)}}">
 		{{ page + 2 }}</a>
 	</li>
 	{% endif %}
@@ -283,10 +278,9 @@ location_to_filter) %}
 	{% else %}
 	<li class="waves-effect"><a
 			href="{{'{0}&is_advanced={1}&searched={2}&keyword={3}&sorted_by={4}&sorted_as={5}&per_page={6}&page={7}
-			&filtered_by_id={8}&filtered_by_title={9}&filtered_by_position={10}&filtered_by_tag={11}
-			&filtered_by_category={12}&filtered_by_company={13}&filtered_by_location={14}'
-			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,last_page,id_to_filter,title_to_filter,
-			position_to_filter,tag_to_filter,category_to_filter,company_to_filter,location_to_filter)}}">
+			&filtered_by_id={8}&filtered_by_name={9}&filtered_by_tag={10}&filtered_by_category={11}'
+			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,last_page,id_to_filter,name_to_filter,
+			tag_to_filter,category_to_filter)}}">
 		last</a>
 	</li>
 	{% endif %}
@@ -294,117 +288,13 @@ location_to_filter) %}
 	{% if total - (page * per_page) > 0 %}
 	<li class="waves-effect"><a
 			href="{{'{0}&is_advanced={1}&searched={2}&keyword={3}&sorted_by={4}&sorted_as={5}&per_page={6}&page={7}
-			&filtered_by_id={8}&filtered_by_title={9}&filtered_by_position={10}&filtered_by_tag={11}
-			&filtered_by_category={12}&filtered_by_company={13}&filtered_by_location={14}'
-			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,page+1,id_to_filter,title_to_filter,
-			position_to_filter,tag_to_filter,category_to_filter,company_to_filter,location_to_filter)}}"><i
+			&filtered_by_id={8}&filtered_by_name={9}&filtered_by_tag={10}&filtered_by_category={11}'
+			.format(url,is_advanced,searched,keyword,sorted_by,sorted_as,per_page,page+1,id_to_filter,name_to_filter,
+			tag_to_filter,category_to_filter)}}"><i
 			class="material-icons">chevron_right</i></a></li>
 	{% else %}
 	<li class="disabled"><a href="JavaScript:void(0);"><i class="material-icons">chevron_right</i></a></li>
 	{% endif %}
 </ul>
-{% endmacro %}
 
-{% macro applicant_pager(url, is_advanced, sorted_by, sorted_as, per_page, page, total, last_page,
-company_to_filter, category_to_filter) %}
-<ul class="pagination">
-
-	{% if page == 1 %}
-	<li class="disabled"><a href="JavaScript:void(0);"><i class="material-icons">chevron_left</i></a></li>
-	{% else %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,page-1,company_to_filter,category_to_filter)|urlencode}}"><i
-			class="material-icons">chevron_left</i></a></li>
-	{% endif %}
-
-	{% if page == 1 %}
-	<li class="active"><a href="JavaScript:void(0);">first</a></li>
-	{% else %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,1,company_to_filter,category_to_filter)|urlencode}}">first</a>
-	</li>
-	{% endif %}
-
-	<li class="active"><a href="JavaScript:void(0);">{{ page }}</a></li>
-
-	{% if total - ((page) * per_page) > 0 %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,page+1,company_to_filter,category_to_filter)|urlencode}}">{{ page + 1 }}</a>
-	</li>
-	{% endif %}
-
-	{% if total - ((page + 1) * per_page) > 0 %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,page+2,company_to_filter,category_to_filter)|urlencode}}">{{ page + 2 }}</a>
-	</li>
-	{% endif %}
-
-	{% if page == last_page %}
-	<li class="active"><a href="JavaScript:void(0);">last</a></li>
-	{% else %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,last_page,company_to_filter,category_to_filter)|urlencode}}">last</a>
-	</li>
-	{% endif %}
-
-	{% if total - (page * per_page) > 0 %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,page+1,company_to_filter,category_to_filter)|urlencode}}"><i
-			class="material-icons">chevron_right</i></a></li>
-	{% else %}
-	<li class="disabled"><a href="JavaScript:void(0);"><i class="material-icons">chevron_right</i></a></li>
-	{% endif %}
-</ul>
-{% endmacro %}
-
-{% macro employer_pager(url, is_advanced, sorted_by, sorted_as, per_page, page, total, last_page,
-company_to_filter, category_to_filter) %}
-<ul class="pagination">
-
-	{% if page == 1 %}
-	<li class="disabled"><a href="JavaScript:void(0);"><i class="material-icons">chevron_left</i></a></li>
-	{% else %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,page-1,company_to_filter,category_to_filter)|urlencode}}"><i
-			class="material-icons">chevron_left</i></a></li>
-	{% endif %}
-
-	{% if page == 1 %}
-	<li class="active"><a href="JavaScript:void(0);">first</a></li>
-	{% else %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,1,company_to_filter,category_to_filter)|urlencode}}">first</a>
-	</li>
-	{% endif %}
-
-	<li class="active"><a href="JavaScript:void(0);">{{ page }}</a></li>
-
-	{% if total - ((page) * per_page) > 0 %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,page+1,company_to_filter,category_to_filter)|urlencode}}">{{ page + 1 }}</a>
-	</li>
-	{% endif %}
-
-	{% if total - ((page + 1) * per_page) > 0 %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,page+2,company_to_filter,category_to_filter)|urlencode}}">{{ page + 2 }}</a>
-	</li>
-	{% endif %}
-
-	{% if page == last_page %}
-	<li class="active"><a href="JavaScript:void(0);">last</a></li>
-	{% else %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,last_page,company_to_filter,category_to_filter)|urlencode}}">last</a>
-	</li>
-	{% endif %}
-
-	{% if total - (page * per_page) > 0 %}
-	<li class="waves-effect"><a
-			href="{{'{0}?is_advanced={1}&sorted_by={2}&sorted_as={3}&per_page={4}&page={5}&filtered_by_company={6}&filtered_by_category={7}'.format(url,is_advanced,sorted_by,sorted_as,per_page,page+1,company_to_filter,category_to_filter)|urlencode}}"><i
-			class="material-icons">chevron_right</i></a></li>
-	{% else %}
-	<li class="disabled"><a href="JavaScript:void(0);"><i class="material-icons">chevron_right</i></a></li>
-	{% endif %}
-</ul>
 {% endmacro %}

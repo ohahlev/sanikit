@@ -5,7 +5,7 @@ from sanic import (
 )
 import logging
 from app import util
-from app.jinja import jinja
+from app.middlewares.jinja import jinja
 from app.blueprints.product import service as product_service
 
 bp = Blueprint("product", url_prefix="products")
@@ -79,13 +79,13 @@ async def search_results(request, is_advanced, searched, keyword, sorted_by, sor
     async def get_categories():
         cached = await product_service.get_cached_categories()
         if cached is None:
-            cached = await product_service.get_db_categories()
+            cached = await product_service.get_db_categories(request.app.pool)
         return cached
 
     async def get_tags():
         cached = await product_service.get_cached_tags()
         if cached is None:
-            cached = await product_service.get_db_tags()
+            cached = await product_service.get_db_tags(request.app.pool)
         return cached
 
     async def get_products():
@@ -94,8 +94,9 @@ async def search_results(request, is_advanced, searched, keyword, sorted_by, sor
         tag_to_filter1 = "" if tag_to_filter == util.EMPTY else tag_to_filter.replace("+", " ")
         category_to_filter1 = "" if category_to_filter == util.EMPTY else category_to_filter.replace("+", " ")
 
-        return await product_service.get_db_products(util.recent_days, "Asia/Bangkok", is_advanced, per_page, page, sorted_by,
-                                             sorted_as, id_to_filter1, name_to_filter1, tag_to_filter1, category_to_filter1)
+        return await product_service.get_db_products(request.app.pool, util.recent_days, "Asia/Bangkok", is_advanced,
+                                                     per_page, page, sorted_by, sorted_as, id_to_filter1,
+                                                     name_to_filter1, tag_to_filter1, category_to_filter1)
 
     f1 = get_categories()
     f2 = get_tags()
@@ -116,9 +117,6 @@ async def search_results(request, is_advanced, searched, keyword, sorted_by, sor
         last_page = int(total / per_page)
     elif total % per_page > 0:
         last_page = int(total / per_page) + 1
-
-    if keyword == util.EMPTY:
-        keyword = ""
 
     return {"categories": cas, "tags": tas, "products": pros,
             "empty_hash": util.EMPTY, "per_page": per_page, "page": page, "searched": searched,

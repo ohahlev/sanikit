@@ -3,15 +3,14 @@ from sanic.exceptions import (
      SanicException
 )
 import logging
-from app.blueprints.db.db import bp as db_bp
-from app import util
-
+from app import app, util
 logger = logging.getLogger()
 
+
 @cached(key="categories")
-async def get_db_categories():
+async def get_db_categories(pool):
     # get connection from the pool
-    async with db_bp.pool.acquire() as connection:
+    async with pool.acquire() as connection:
         # get transaction
         async with connection.transaction():
             # fetch article by type
@@ -33,9 +32,9 @@ async def get_cached_categories():
 
 
 @cached(key="tags")
-async def get_db_tags():
+async def get_db_tags(pool):
     # get connection from the pool
-    async with db_bp.pool.acquire() as connection:
+    async with pool.acquire() as connection:
         # get transaction
         async with connection.transaction():
             # fetch article by type
@@ -55,10 +54,11 @@ async def get_cached_tags():
     logger.info("from cache, tags in size = {}".format(0 if result is None else len(result)))
     return result
 
-async def get_db_products(since, tz, is_advanced, per_page, page, sorted_by, sorted_as, id_to_filter, name_to_filter,
+async def get_db_products(pool, since, tz, is_advanced, per_page, page, sorted_by, sorted_as, id_to_filter, name_to_filter,
                       tag_to_filter, category_to_filter):
+
     # get connection from the pool
-    async with db_bp.pool.acquire() as connection:
+    async with pool.acquire() as connection:
         # get transaction
         async with connection.transaction():
             # fetch article by type

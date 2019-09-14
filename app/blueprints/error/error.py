@@ -1,6 +1,6 @@
 from sanic import Blueprint
 from sanic.log import logger
-from app.jinja import jinja
+from app.middlewares.jinja import jinja
 
 bp = Blueprint("error")
 

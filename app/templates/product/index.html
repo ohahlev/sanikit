@@ -18,7 +18,7 @@
                         <input type="hidden" name="tag_to_filter" value="{{ tag_to_filter }}" />
                         <input type="hidden" name="category_to_filter" value="{{ category_to_filter }}" />
                         <div class="input-field">
-                            <input id="search" type="search" name="keyword" value="{{ keyword.replace('+', ' ') }}" />
+                            <input id="search" type="search" name="keyword" value="{{ keyword.replace('+', ' ') if keyword != empty_hash else '' }}" />
                             <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                             <i class="material-icons">close</i>
                         </div>
@@ -322,6 +322,7 @@
 </table>
 
 <div class="row">
+
     {{ m.product_pager(app.url_for("product.search"), is_advanced, 1, keyword, sorted_by, sorted_as, per_page, page,
     total, last_page, id_to_filter, name_to_filter, tag_to_filter, category_to_filter) }}
 </div>

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 export ENVIRONMENT=prod
-export DB_HOST=DUMMY
-export DB_PORT=DUMMY
-export DB_USER=DUMMY
-export DB_PASS=DUMMY
-export DB_NAME=DUMMY
+export DB_HOST=127.0.0.1
+export DB_PORT=5432
+export DB_USER=postgres
+export DB_PASS=postgres
+export DB_NAME=acmhr
 export MAX_CONNECTION=50
-export MY_PORT=2402
+export MY_PORT=2401
