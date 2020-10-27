@@ -15,7 +15,7 @@ certifi==2019.6.16
 cffi==1.12.3
 chardet==3.0.4
 Click==7.0
-cryptography==2.7
+cryptography==3.2
 execnet==1.6.0
 h11==0.8.1
 h2==3.1.0
